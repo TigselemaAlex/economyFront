@@ -1,0 +1,23 @@
+<section class="w-full h-full bg-teal-700 flex align-items-center justify-content-center">
+  <div>
+    <p-button label="Simulador" icon="pi pi-sign-in" iconPos="right" type="submit"
+              styleClass="w-full"></p-button>
+  </div>
+  <p-card styleClass="w-30rem">
+    <ng-template pTemplate="header">
+      <h2 class="text-2xl uppercase text-center p-4">{{sharedData.title}}</h2>
+    </ng-template >
+    <app-sign-in *ngIf="!sharedData.isVisible"></app-sign-in>
+    <app-register *ngIf="sharedData.isVisible"></app-register>
+    <ng-template pTemplate="footer">
+      <div class="flex gap-2 align-items-center justify-content-center mt-2">
+        <p>{{sharedData.isVisible ? 'Ya está registrada tu institución?' : 'No tienes registrada tu institución?'}}</p>
+        <p-button
+          [label]="sharedData.isVisible ? 'Iniciar Sesión' : 'Registrate'"
+          styleClass="p-button-link focus:outline-0 focus:shadow-none"
+          (onClick)="toggleVisibility()">
+        </p-button>
+      </div>
+    </ng-template>
+  </p-card>
+</section>

@@ -1,0 +1,22 @@
+<section class="h-full w-full">
+  <header class="w-full py-2 px-4 bg-teal-800 h-5rem shadow-2 flex align-items-center justify-content-between">
+    <div class="flex align-items-center w-8rem">
+      <p-button icon="pi pi-bars" (click)="sidebarVisible = true"
+                styleClass="p-button-rounded p-button-success p-button-text p-button-raised p-button-lg bg-white w-3rem h-3rem hover:bg-teal-100"></p-button>
+      <h2 class="text-white text-2xl ml-4">{{getRouteUrl()}}</h2>
+    </div>
+    <h1 class="text-white text-3xl ml-4 font-bold">Institución: {{jwtResponse.user.institution.name}}</h1>
+    <h3 class="text-white text-xl ml-4">Usuario: {{jwtResponse.user.fullname}}</h3>
+  </header>
+  <div class="p-3 w-full bg-teal-300" [style]="{'height': 'calc(100% - 5rem)'}">
+    <div class="shadow-4 border-round-lg h-full p-2 bg-white" >
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</section>
+<p-sidebar [(visible)]="sidebarVisible" styleClass="w-15rem" >
+  <ng-template pTemplate="header">MENU</ng-template>
+  <ng-template pTemplate="content">
+    <p-menu [model]="items" styleClass="w-full" ></p-menu>
+  </ng-template>
+</p-sidebar>

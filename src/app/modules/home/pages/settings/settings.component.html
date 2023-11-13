@@ -1,0 +1,16 @@
+<section class="flex align-items-center flex-column justify-content-center gap-4">
+  <h2>Información de la institución</h2>
+  <form [formGroup]="institutionForm" class="shadow-2 p-4 flex flex-column gap-5">
+    <span class="p-float-label w-full">
+        <input pInputText id="name" class="w-full"  autocomplete="off"/>
+        <label [htmlFor]="'name'"><span class="text-red-400 vertical-align-middle">*</span> Nombre de la
+          Institución</label>
+    </span>
+    <div>
+      <label class="mb-2">Logo:</label>
+      <p-fileUpload name="demo[]" url="https://www.primefaces.org/cdn/api/upload.php"
+                     accept="image/*" [maxFileSize]="1000000" mode="advanced" [showUploadButton]="false">
+      </p-fileUpload>
+    </div>
+  </form>
+</section>

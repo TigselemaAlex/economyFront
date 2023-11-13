@@ -1,0 +1,45 @@
+<form class="flex flex-column gap-5" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <span class="p-float-label p-input-icon-right w-full">
+      <input pInputText id="name" class="w-full" autocomplete="off" formControlName="name"
+             [ngClass]="registerForm.get('name')?.dirty ? 'ng-invalid ng-dirty':''"
+      />
+      <label [htmlFor]="'name'">Nombre de la Insitución</label>
+    </span>
+  <span class="p-float-label p-input-icon-right w-full">
+      <input pInputText id="fullname" class="w-full" autocomplete="off" formControlName="fullname"
+             [ngClass]="registerForm.get('fullname')?.dirty ? 'ng-invalid ng-dirty':''"/>
+
+      <label [htmlFor]="'fullname'">Nombre Completo</label>
+    </span>
+  <span class="p-float-label p-input-icon-right w-full">
+      <input pInputText id="identification" class="w-full" autocomplete="off" formControlName="identification"
+             [ngClass]="registerForm.get('identification')?.dirty ? 'ng-invalid ng-dirty':''"/>
+      <label [htmlFor]="'fullname'">Identificación</label>
+    </span>
+  <span class="p-float-label p-input-icon-right w-full">
+      <input pInputText id="email" class="w-full" autocomplete="off" formControlName="email"
+             [ngClass]="registerForm.get('email')?.dirty ? 'ng-invalid ng-dirty':''"/>
+
+      <label [htmlFor]="'email'">Email</label>
+    </span>
+  <span class="p-float-label">
+      <p-password [feedback]="false" id="password" [toggleMask]="true" styleClass="w-full"
+                  formControlName="password"
+                  [ngClass]="registerForm.get('password')?.dirty ? 'ng-invalid ng-dirty':''"
+      ></p-password>
+      <label for="password">Contraseña</label>
+    </span>
+  <span class="p-float-label p-input-icon-right w-full">
+      <input pInputText id="telephone" class="w-full" autocomplete="off" formControlName="telephone"
+             [ngClass]="registerForm.get('telephone')?.dirty ? 'ng-invalid ng-dirty':''"/>
+      <label [htmlFor]="'telephone'">Teléfono</label>
+    </span>
+  <span class="p-float-label p-input-icon-right w-full">
+      <input pInputText id="address" class="w-full" autocomplete="off" formControlName="address"
+             [ngClass]="registerForm.get('address')?.dirty ? 'ng-invalid ng-dirty':''"/>
+      <label [htmlFor]="'address'">Dirección</label>
+    </span>
+  <p-button label="Registrate" icon="pi pi-save" iconPos="right" type="submit"
+            styleClass="w-full"></p-button>
+</form>
+

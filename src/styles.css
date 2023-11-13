@@ -1,1 +1,30 @@
-/* You can add global styles to this file, and also import other style files */
+@import "primeng/resources/themes/mira/theme.css";
+@import "primeng/resources/primeng.css";
+@import "primeflex/primeflex.css";
+@import "primeicons/primeicons.css";
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+html{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+body{
+  min-height: 100%;
+  height: 100%;
+  background-color: #f1f1f1;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  color: #333333;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+p, h1, h2, h3, h4{
+  margin: 0;
+  padding: 0;
+}

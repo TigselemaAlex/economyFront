@@ -1,0 +1,53 @@
+<p-dialog [(visible)]="sharedData.isVisible"
+          [style]="{ width: '500px' }"
+          [modal]="true"
+          [resizable]="false"
+          [draggable]="false"
+          [position]="'top'"
+          (onHide)="onClose()"
+>
+  <ng-template pTemplate="header">
+    <span class="text-xl font-bold">{{sharedData.title}}</span>
+  </ng-template>
+  <ng-template pTemplate="content">
+    <form class="h-full mt-4 flex flex-column gap-5" [formGroup]="creditForm">
+    <span class="p-float-label w-full">
+        <input pInputText id="name" class="w-full" formControlName="name" autocomplete="off"/>
+        <label [htmlFor]="'name'"><span class="text-red-400 vertical-align-middle">*</span> Nombre del Crédito</label>
+    </span>
+    <span class="p-float-label w-full">
+      <p-inputNumber inputId="minAmount" class="w-full" styleClass="w-full" formControlName="minimumamount"
+                     [min]="0"
+                     suffix="$"
+                     [showButtons]="true">
+      </p-inputNumber>
+      <label [htmlFor]="'minAmount'"><span class="text-red-400 vertical-align-middle">*</span> Monto mínimo</label>
+    </span>
+      <span class="p-float-label w-full">
+      <p-inputNumber inputId="maxAmount" class="w-full" styleClass="w-full" formControlName="maximumamount"
+                     [min]="0"
+                     suffix="$"
+                     [showButtons]="true">
+      </p-inputNumber>
+      <label [htmlFor]="'maxAmount'">
+        <span class="text-red-400 vertical-align-middle">*</span> Monto máximo</label>
+    </span>
+      <span class="p-float-label w-full">
+      <p-inputNumber inputId="interestRate" class="w-full" styleClass="w-full" formControlName="interestrate"
+                     [min]="0"
+                     [max]="100"
+                     [step]="1"
+                     suffix="%"
+                     [showButtons]="true">
+      </p-inputNumber>
+      <label [htmlFor]="'interestRate'"><span class="text-red-400 vertical-align-middle">*</span> Tasa de
+        Interés</label>
+    </span>
+    </form>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-times" (click)="onClose()" label="Cancelar"
+              styleClass="p-button-raised p-button-danger"></p-button>
+    <p-button icon="pi pi-check" label="Aceptar" styleClass="p-button-raised " (onClick)="onSubmit()"></p-button>
+  </ng-template>
+</p-dialog>

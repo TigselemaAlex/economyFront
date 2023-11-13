@@ -1,0 +1,17 @@
+<form class="flex flex-column gap-5" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <span class="p-float-label p-input-icon-right w-full">
+      <i class="pi pi-at"></i>
+      <input pInputText id="email" class="w-full" autocomplete="off"
+             [ngClass]="loginForm.get('email')?.dirty ? 'ng-invalid ng-dirty':''" formControlName="email"/>
+      <label [htmlFor]="'email'">Email</label>
+    </span>
+  <span class="p-float-label">
+      <p-password [feedback]="false" id="password" [toggleMask]="true" styleClass="w-full"
+                  [ngClass]="loginForm.get('password')?.dirty ? 'ng-invalid ng-dirty':''"
+                  formControlName="password"></p-password>
+      <label for="password">Contraseña</label>
+    </span>
+  <p-button label="Iniciar Sesión" icon="pi pi-sign-in" iconPos="right" type="submit"
+            styleClass="w-full"></p-button>
+</form>
+
