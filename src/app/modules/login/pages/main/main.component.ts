@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {SimpleSharedData} from "../../../../shared/models/simple-shared-data.model";
+import {provideRouter, Router} from "@angular/router";
 
 @Component({
   selector: 'app-main',
@@ -11,6 +12,8 @@ export class MainComponent {
     title: 'Inicio de Sesión',
     isVisible: false,
   };
+  constructor(private router: Router) {
+  }
 
   toggleVisibility(): void {
     this.sharedData.isVisible = !this.sharedData.isVisible;
@@ -20,6 +23,7 @@ export class MainComponent {
       this.sharedData.title = 'Inicio de Sesión';
     }
   }
-
-  protected readonly FocusEvent = FocusEvent;
+  openSimulator(): void {
+    this.router.navigate(['/amortization']);
+  }
 }

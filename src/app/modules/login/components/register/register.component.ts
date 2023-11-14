@@ -1,9 +1,10 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Role} from "../../../../shared/enums/Role";
 import {NonNullableFormBuilder, Validators} from "@angular/forms";
 import {LoginService} from "../../services/login.service";
 import {UserRequest} from "../../../../shared/models/user-request.model";
 import {MessageService} from "primeng/api";
+import {Route, Router} from "@angular/router";
 
 @Component({
   selector: 'app-register',
@@ -24,15 +25,18 @@ export class RegisterComponent {
     role: [Role.ADMINISTRADOR],
   });
 
+  @Output() register = new EventEmitter<void>();
+
   constructor(private fb: NonNullableFormBuilder,
               private loginService: LoginService,
-              private messageService: MessageService) {}
+              private messageService: MessageService,
+              private router: Router) {}
   onSubmit(): void {
     if (this.registerForm.valid) {
       const registerUser = this.registerForm.value as UserRequest;
       this.loginService.registerUser(registerUser).subscribe(resp => {
         this.messageService.add({severity:'success', summary: 'Registro exitoso', detail: 'Usuario registrado correctamente'});
-        console.log(resp);
+        this.register.emit();
       });
     }else{
       Object.values(this.registerForm.controls).forEach(control => {

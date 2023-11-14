@@ -22,7 +22,7 @@
             </div>
             <div class="grid">
               <div class="col-12">
-                <p-table [value]="sharedData.data['charges']" styleClass="shadow-2 p-datatable-striped p-datatable-sm"
+                <p-table [value]="charges" styleClass="shadow-2 p-datatable-striped p-datatable-sm"
                          [paginator]="true"
                          [rows]="10" [scrollable]="true" [scrollHeight]="'calc(100vh - 370px)'">
                   <ng-template pTemplate="header">

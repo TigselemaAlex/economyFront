@@ -5,6 +5,7 @@ import {ConfirmationService, MessageService} from "primeng/api";
 import {Charge} from "../../../../shared/models/charge.model";
 import {CreditService} from "../../services/credit.service";
 import {JWTResponse} from "../../../../shared/models/jwtresponse.model";
+import {ChargesService} from "../../services/charges.service";
 
 @Component({
   selector: 'app-credits',
@@ -27,11 +28,15 @@ export class CreditsComponent implements OnInit {
     response: null
   }
 
+  charges: Charge[] = [];
+
+
   jwtResponse: JWTResponse = JSON.parse(localStorage.getItem('token') as string);
 
   constructor(private messageService: MessageService,
               private confirmationService: ConfirmationService,
-              private creditService: CreditService
+              private creditService: CreditService,
+              private chargeService: ChargesService
   ) {
   }
 
@@ -48,11 +53,24 @@ export class CreditsComponent implements OnInit {
         this.messageService.add({severity: 'error', summary: 'Error', detail: 'No se pudieron cargar los créditos'});
       }
     });
-}
+  }
+
+  allCharges(){
+      this.chargeService.allCharges(this.sharedDataCharges.data!.id!).subscribe({
+        next: (resp) => {
+          this.charges = resp.data;
+          console.log(this.charges);
+        },
+        error: (err) => {
+          this.messageService.add({severity: 'error', summary: 'Error', detail: 'No se pudieron cargar los cargos'});
+        }
+      });
+  }
 
   credits: Credit[] = []
 
   openForm(credit?: Credit): void {
+
     if (credit) {
       this.sharedData.data = credit;
       this.sharedData.isVisible = true;
@@ -62,20 +80,20 @@ export class CreditsComponent implements OnInit {
       this.sharedData.isVisible = true;
       this.sharedData.title = 'Registrar Crédito';
     }
+
   }
 
   openFormCharges(credit: Credit): void {
     this.sharedDataCharges.data = credit;
     this.sharedDataCharges.isVisible = true;
     this.sharedDataCharges.title = 'Cargos';
+    this.allCharges();
   }
 
   save(): void {
     if (this.sharedData.response) {
       let credit: Credit = this.sharedData.response;
       if (credit.id) {
-        /*this.credits = this.credits.map(c => c.id == credit.id ? credit : c);
-        this.messageService.add({severity: 'success', summary: 'Éxito', detail: 'Crédito actualizado correctamente'});*/
         this.creditService.updateCredit(credit).subscribe({
           next: (resp) => {
             this.allCredits();
@@ -86,8 +104,6 @@ export class CreditsComponent implements OnInit {
           }
         });
       } else {
-        /*credit.id = (this.credits.length + 1).toString();
-        this.credits.push(credit);*/
         this.creditService.saveCredit(this.jwtResponse.user.institution.id!, credit).subscribe({
           next: (resp) => {
             this.allCredits();
@@ -107,8 +123,6 @@ export class CreditsComponent implements OnInit {
       message: '¿Está seguro que desea eliminar el crédito?',
       target: event.target!,
       accept: () => {
-        /*this.credits = this.credits.filter(c => c.id != credit.id);
-        this.messageService.add({severity: 'success', summary: 'Éxito', detail: 'Crédito eliminado correctamente'});*/
         this.creditService.deleteCredit(credit.id!).subscribe({
           next: (resp) => {
             this.allCredits();
@@ -124,29 +138,41 @@ export class CreditsComponent implements OnInit {
 
   updateCharges(id?: string): void {
     if (id) {
-      /*this.credits = this.credits.map(c => {
-        c.charges = c.charges ? c.charges.filter(ch => ch.id != id) : [];
-        return c;
-      });*/
-      this.messageService.add({severity: 'success', summary: 'Éxito', detail: 'Cargo eliminado correctamente'});
+      this.chargeService.deleteCharge(id).subscribe({
+        next: (resp) => {
+          this.allCredits();
+          this.messageService.add({severity: 'success', summary: 'Éxito', detail: 'Cargo eliminado correctamente'});
+          this.allCharges();
+        },
+        error: (err) => {
+          this.messageService.add({severity: 'error', summary: 'Error', detail: 'No se pudo eliminar el cargo'});
+        }
+      });
       return;
     }
     let charges: Charge = this.sharedDataCharges.response;
     if (charges.id){
-      /*this.credits = this.credits.map(c => {
-        c.charges = c.charges ? c.charges.map(ch => ch.id == charges.id ? charges : ch) : [charges];
-        return c;
-      });*/
-      this.messageService.add({severity: 'success', summary: 'Éxito', detail: 'Cargo actualizado correctamente'});
-    }else{
-      /*charges.id = (this.credits.length + 1).toString();
-      this.credits = this.credits.map(c => {
-        if (c.id == this.sharedDataCharges.data?.id) {
-          c.charges = c.charges ? [...c.charges, charges] : [charges];
+      this.chargeService.updateCharge(charges).subscribe({
+        next: (resp) => {
+          this.allCredits();
+          this.messageService.add({severity: 'success', summary: 'Éxito', detail: 'Cargo actualizado correctamente'});
+          this.allCharges();
+        },
+        error: (err) => {
+          this.messageService.add({severity: 'error', summary: 'Error', detail: 'No se pudo actualizar el cargo'});
         }
-        return c;
-      });*/
-      this.messageService.add({severity: 'success', summary: 'Éxito', detail: 'Cargo registrado correctamente'});
+      });
+    }else{
+      this.chargeService.saveCharge(this.sharedDataCharges.data!.id!, charges).subscribe({
+        next: (resp) => {
+          this.allCredits();
+          this.messageService.add({severity: 'success', summary: 'Éxito', detail: 'Cargo registrado correctamente'});
+          this.allCharges();
+        },
+        error: (err) => {
+          this.messageService.add({severity: 'error', summary: 'Error', detail: 'No se pudo registrar el cargo'});
+        }
+      });
     }
   }
 

@@ -14,6 +14,9 @@ const routes: Routes = [
       loginGuard
     ]
   },
+  {
+    path: 'amortization', loadChildren: () => import('./public/public.module').then(m => m.PublicModule)
+  }
 ];
 
 @NgModule({

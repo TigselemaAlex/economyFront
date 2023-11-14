@@ -38,6 +38,6 @@
 </p-table>
 <app-form-credit [sharedData]="sharedData" (submit)="save()" *ngIf="sharedData.isVisible"></app-form-credit>
 <app-form-charges [sharedData]="sharedDataCharges" *ngIf="sharedDataCharges.isVisible"
-                  (submit)="updateCharges($event)"></app-form-charges>
+                  (submit)="updateCharges($event)" [charges]="charges"></app-form-charges>
 
 

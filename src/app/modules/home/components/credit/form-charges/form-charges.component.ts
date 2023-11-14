@@ -2,6 +2,8 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {SimpleSharedData} from "../../../../../shared/models/simple-shared-data.model";
 import {NonNullableFormBuilder, Validators} from "@angular/forms";
 import {ConfirmationService} from "primeng/api";
+import {ChargesService} from "../../../services/charges.service";
+import {Charge} from "../../../../../shared/models/charge.model";
 
 @Component({
   selector: 'app-form-charges',
@@ -19,6 +21,7 @@ export class FormChargesComponent implements OnInit{
   @Output() submit = new EventEmitter<string>();
 
   formTitle: string = 'Registrar Cargo';
+  @ Input() charges: Charge[] = [];
   ngOnInit(): void {
   }
 
@@ -31,6 +34,7 @@ export class FormChargesComponent implements OnInit{
 
   constructor(private fb: NonNullableFormBuilder, private confirmationService: ConfirmationService) {
   }
+
   onSubmit(): void {
     if (this.chargeForm.valid) {
       console.log(this.chargeForm.value);

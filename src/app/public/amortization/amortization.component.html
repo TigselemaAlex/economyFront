@@ -1,0 +1,70 @@
+<section class="h-full w-full bg-gray-200 p-4 flex flex-column align-items-center gap-2">
+  <h2 class="text-center text-3xl text-teal-900 font-bold">SIMULADOR DE AMORTIZACIÓN</h2>
+  <form class="flex flex-column gap-2 w-30rem shadow-3 bg-white p-4 border-round" [formGroup]="amortizationForm">
+    <div class="flex flex-column gap-2">
+      <label>Institución:</label>
+      <p-dropdown [options]="institutions" optionLabel="name" styleClass="w-full"
+                  placeholder="Seleccionma una Institución"
+                  (onChange)="getCredits()"
+                  [(ngModel)]="selectedInstitution" [ngModelOptions]="{standalone: true}"></p-dropdown>
+    </div>
+    <div class="flex flex-column gap-2" *ngIf="selectedInstitution">
+      <label>Crédito:</label>
+      <p-dropdown [options]="credits" optionLabel="name" styleClass="w-full"
+                  [(ngModel)]="selectedCredit" [ngModelOptions]="{standalone: true}"></p-dropdown>
+    </div>
+    <div class="flex flex-column gap-2">
+      <label>Tipo de Amortización:</label>
+      <p-dropdown [options]="amortizationTypes" optionLabel="name" styleClass="w-full"
+                  [(ngModel)]="amortizationType" [ngModelOptions]="{standalone: true}"
+      ></p-dropdown>
+    </div>
+    <div class="flex flex-column gap-2">
+      <label>Monto:</label>
+      <p-inputNumber inputId="currency-us" mode="currency" currency="USD" locale="en-US" styleClass="w-full"
+                     formControlName="amount">
+      </p-inputNumber>
+    </div>
+    <div class="flex flex-column gap-2">
+      <label>Meses:</label>
+      <p-inputNumber  styleClass="w-full"  formControlName="term">
+      </p-inputNumber>
+    </div>
+    <p-button label="Simular" styleClass="p-button-rounded w-full" (onClick)="simulateAmortization()"></p-button>
+  </form>
+</section>
+
+<p-dialog [header]="'Amortización ' + amortizationType?.name" [(visible)]="visible" [modal]="true" [style]="{ width:
+'800px' }"
+          [draggable]="false"
+          position="top"
+          [resizable]="false">
+  <p-button label="Imprimir" icon="pi pi-file-pdf" iconPos="right" styleClass="my-2" (onClick)="printPDF()"></p-button>
+  <p-table [value]="amortizationRows" styleClass="shadow-2 p-datatable-striped p-datatable-sm"
+           [paginator]="true"
+           [rows]="20" [scrollable]="true" [scrollHeight]="'calc(100vh - 370px)'">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>N</th>
+        <th>Cuota</th>
+        <th>Interés</th>
+        <th>Capital</th>
+        <th>Saldo</th>
+        <th>Cargo</th>
+        <th class="w-8rem"></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-row>
+      <tr>
+        <td>{{ row['numeroMes'] }}</td>
+        <td>{{ row['cuota'] }}$</td>
+        <td>{{ row['interest'] }}$</td>
+        <td>{{ row['capital'] }}$</td>
+        <td>{{ row['saldo'] }}$</td>
+        <td>{{ row['chargesamount'] }}$</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-dialog>
+
+
